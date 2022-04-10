@@ -1,8 +1,6 @@
 package com.spring.board.dao.impl;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,6 +75,9 @@ public class BoardDaoImpl implements BoardDao{
 		return sqlSession.delete("board.boardDel", boardVo);
 	}
 
+	@Override
+	public int pageCnt(PageVo pageVo) throws Exception {
+		return sqlSession.selectOne("board.pageCnt", pageVo);
+	}
 
-	
 }	// class end

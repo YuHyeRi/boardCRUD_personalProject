@@ -39,47 +39,51 @@ public class BoardController {
 	@Autowired 
 	boardService boardService;
 	
+	// autowired 대신 객체생성
 	PagingService pagingService = new PagingService();
 
-	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
 	// boardList.do
 	@RequestMapping(value="/board/boardList.do", method= {RequestMethod.GET, RequestMethod.POST})		// method 2개 작성 가능
-	public String boardList(Locale locale, Model model, PageVo pageVo) throws Exception {
+	public String boardList(Model model, PageVo pageVo) throws Exception {
 		
-		List<BoardVo> boardList = null;	// 변수 선언 후 값이 업다고 초기화
+		List<BoardVo> boardList = null;	// 변수 선언 후 값이 없다고 초기화
 		
-		int page = 1;
+		int page = 1;	// 페이징 번호 초기화
 		int totalCnt = 0;
 		
 		if(pageVo.getPageNo() == 0){
 			pageVo.setPageNo(page);
 		}
 		
-		PagingBean pb = pagingService.getPagingBean(page, totalCnt);
+		int pageCnt = boardService.pageCnt(pageVo);	// pageCnt : 게시글 수
+		
+		// 페이징을 위한 코드
+		PagingBean pb = pagingService.getPagingBean(page, pageCnt);
 		model.addAttribute("startCnt", Integer.toString(pb.getStartCount()));
 		model.addAttribute("endCnt", Integer.toString(pb.getEndCount()));
 		
 		String codeType = "menu";
-		List<ComCodeVo> list = boardService.comCodeList(codeType);	// 0119 추가
+		List<ComCodeVo> list = boardService.comCodeList(codeType);
 		
-		boardList = boardService.selectBoardList(pageVo);	// selectBoardList
+		boardList = boardService.selectBoardList(pageVo);		// selectBoardList
 		totalCnt = boardService.selectBoardCnt(pageVo);			// selectBoardCnt
 		
 		// System.out.println("CheckNo ===========> " + pageVo.getCheckNo());
 		
+		model.addAttribute("pb", pb);
 		model.addAttribute("boardList", boardList);
 		model.addAttribute("totalCnt", totalCnt);
 		model.addAttribute("pageNo", page);
-		model.addAttribute("list", list);	// 0119 추가
+		model.addAttribute("list", list);
 		
 		return "board/boardList";			// 보여줄 view
 	}
 	
 	// boardView.do
 	@RequestMapping(value = "/board/{boardType}/{boardNum}/boardView.do", method=RequestMethod.GET)
-	public String boardView(Locale locale, Model model
+	public String boardView(Model model
 							,@PathVariable("boardType") String boardType
 							,@PathVariable("boardNum") int boardNum) throws Exception {
 		
@@ -99,7 +103,7 @@ public class BoardController {
 	
 	// boardWrite.do
 	@RequestMapping(value="/board/boardWrite.do", method=RequestMethod.GET)
-	public String boardWrite(Locale locale, Model model) throws Exception {	// ()안에 있는 값은 받아야 하는 걸 쓴다.
+	public String boardWrite(Model model) throws Exception {	// ()안에 있는 값은 받아야 하는 걸 쓴다.
 		
 		String codeType = "menu";	
 		List<ComCodeVo> list = boardService.comCodeList(codeType);	// comCodeList (추가)
@@ -113,7 +117,7 @@ public class BoardController {
 	// boardWriteAction.do
 	@RequestMapping(value="/board/boardWriteAction.do", method=RequestMethod.POST)
 	@ResponseBody
-	public String boardWriteAction(Locale locale, BoardVo boardVo) throws Exception {
+	public String boardWriteAction(BoardVo boardVo) throws Exception {
 		
 		HashMap<String, String> result = new HashMap<String, String>();
 		
@@ -131,7 +135,7 @@ public class BoardController {
 	
 	// boardUpdate.do
 	@RequestMapping(value="/board/{boardType}/{boardNum}/boardUpdate.do", method=RequestMethod.GET)
-	public String boardUpdate(Locale locale, Model model, ComCodeVo comCodeVo
+	public String boardUpdate(Model model, ComCodeVo comCodeVo
 								,@PathVariable("boardType") String boardType
 								,@PathVariable("boardNum") int boardNum) throws Exception {
 		
@@ -150,7 +154,7 @@ public class BoardController {
 	// boardUpdateAction.do
 	@RequestMapping(value="/board/boardUpdateAction.do", method = RequestMethod.POST)
 	@ResponseBody
-	public String boardUpdateAction(Locale locale, BoardVo boardVo) throws Exception {
+	public String boardUpdateAction(BoardVo boardVo) throws Exception {
 		
 		HashMap<String, String> result = new HashMap<String, String>();
 		
@@ -191,7 +195,7 @@ public class BoardController {
 	
 	// boardJoin.do
 	@RequestMapping(value="/board/boardJoin.do", method = RequestMethod.GET)
-	public String boardJoin(Locale locale, Model model) throws Exception {
+	public String boardJoin(Model model) throws Exception {
 		
 		String codeType = "phone";
 		List<ComCodeVo> comCodeList = boardService.comCodeList(codeType);
@@ -204,7 +208,7 @@ public class BoardController {
 	// boardJoinAction.do
 	@RequestMapping(value="/board/boardJoinAction.do", method = RequestMethod.POST)
 	@ResponseBody
-	public String boardJoinAction(Locale locale, UserVo userVo) throws Exception {
+	public String boardJoinAction(UserVo userVo) throws Exception {
 		
 		HashMap<String, String> joinList = new HashMap<String, String>();
 		

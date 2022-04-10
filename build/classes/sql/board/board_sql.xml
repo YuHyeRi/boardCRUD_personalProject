@@ -170,8 +170,9 @@
 		WHERE USER_ID = #{userId}
     </select>
     
-    
-  
-    
+    <select id="pageCnt" parameterType="com.spring.board.vo.PageVo" resultType="Integer">
+    	SELECT COUNT(*) AS CNT
+		FROM BOARD
+    </select>
     
 </mapper>

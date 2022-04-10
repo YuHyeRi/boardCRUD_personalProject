@@ -62,7 +62,7 @@
 			<tr>
 				<td align="center">
 					<!-- 컬렉션에 있는 property를 써주고 써준다 -->
-					${list.comCodeVo.codeName}	
+					${list.comCodeVo.codeName}
 				</td>
 				<td align="center">
 					${list.boardNum}
@@ -93,42 +93,42 @@
 		<nav aria-label="...">
 			<ul class="pagination">
 				<c:choose>
-					<c:when test="${page eq 1}">
+					<c:when test="${pageNo eq 1}">
 						 <li class="page-item disabled">
 						 	<a class="page-link"><span page="1">Previous</span></a>
 						 </li>
 					</c:when>
 					<c:otherwise>
 						<li class="page-item">
-							<a class="page-link"><span page="${page - 1}">Previous</span></a>
+							<a class="page-link"><span page="${pageNo - 1}">Previous</span></a>
 						</li>
 					</c:otherwise>
 				</c:choose>
 							
 				<c:forEach var="i" begin="${pb.startPcount}" end="${pb.endPcount}" step="1">
 				<c:choose>
-					<c:when test="${page eq i}">
+					<c:when test="${pageNo eq i}">
 						<li class="page-item" aria-current="page">
-							<a class="page-link"><span page="${page - 1}"><span page="${i}"><b>${i}</b></span></a>
+							<a class="page-link"><span page="${pageNo - 1}"><span page="${i}"><b>${i}</b></span></a>
 						</li>
 					</c:when>
 					<c:otherwise>
 						<li class="page-item">
-							<a class="page-link"><span page="${page - 1}"><span page="${i}">${i}</span></a>
+							<a class="page-link"><span page="${pageNo - 1}"><span page="${i}">${i}</span></a>
 						</li>
 					</c:otherwise>
 				</c:choose>
 				</c:forEach>
 							
 				<c:choose>
-					<c:when test="${page eq pb.maxPcount}">
+					<c:when test="${pageNo eq pb.maxPcount}">
 						<li class="page-item">
-							<a class="page-link"><span page="${page - 1}"><span page="${pb.maxPcount}">Next</span></a>
+							<a class="page-link"><span page="${pageNo - 1}"><span page="${pb.maxPcount}">Next</span></a>
 						</li>
 					</c:when>
 					<c:otherwise>
 						<li class="page-item">
-							<a class="page-link"><span page="${page - 1}"><span page="${page + 1}">Next</span></a>
+							<a class="page-link"><span page="${pageNo - 1}"><span page="${pageNo + 1}">Next</span></a>
 						</li>
 					</c:otherwise>
 				</c:choose>
@@ -146,6 +146,12 @@
 				$j("input[type=checkbox]").prop("checked", false);
 			}
 		}); */
+		
+		// paging
+		$j("#pagingWrap").on("click", "span", function(){
+			console.log("페이징 클릭");
+			$j("#pagingWrap").submit();
+		})
 		
 		$j("#checkAll").on("click", function() {
 			if($j("#checkAll").is(":checked")) {

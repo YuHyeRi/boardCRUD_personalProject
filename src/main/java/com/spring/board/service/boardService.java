@@ -1,8 +1,6 @@
 package com.spring.board.service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.spring.board.vo.BoardVo;
 import com.spring.board.vo.ComCodeVo;
@@ -33,7 +31,6 @@ public interface boardService {
 
 	public int boardDel(BoardVo boardVo) throws Exception;
 
-
-
+	public int pageCnt(PageVo pageVo) throws Exception;
 
 }

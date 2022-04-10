@@ -1,8 +1,6 @@
 package com.spring.board.service.impl;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -80,6 +78,10 @@ public class boardServiceImpl implements boardService {
 		return boardDao.boardDel(boardVo);
 	}
 
+	@Override
+	public int pageCnt(PageVo pageVo) throws Exception {
+		return boardDao.pageCnt(pageVo);
+	}
 
 	
 }	// class end
