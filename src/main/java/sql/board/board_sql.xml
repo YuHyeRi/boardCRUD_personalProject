@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//www.mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="board">
+    
+    <!-- resultMap join도 가능하다 -->
+    <resultMap type="com.spring.board.vo.BoardVo" id="boardVo">
+    	<result     property="boardType" 	column="BOARD_TYPE"/>
+    	<result     property="boardNum" 	column="BOARD_NUM"/>
+    	<result     property="boardTitle" 	column="BOARD_TITLE"/>
+    	<result     property="boardComment" column="BOARD_COMMENT"/>
+    	<result     property="creator" 		column="CREATOR"/>
+    	<collection property="comCodeVo"    resultMap="comCodeVo" />	<!-- resultMap은 참고할 resultMap의 아이디를 씀 -->
+    </resultMap>
+    
+    <resultMap type="com.spring.board.vo.ComCodeVo" id="comCodeVo">
+    	<result		property="codeName" 	column="CODE_NAME"/>
+    	<result 	property="codeId" 		column="CODE_ID"/>
+    </resultMap>
+    
+    <resultMap type="com.spring.board.vo.UserVo" id="userVo">
+    	<result property="userId"			column="USER_ID" />
+    	<result property="userPw"			column="USER_PW" />
+    	<result property="userName"			column="USER_NAME" />
+    	<result property="userPhone1"		column="USER_PHONE1" />
+    	<result property="userPhone2"		column="USER_PHONE2" />
+    	<result property="userPhone3"		column="USER_PHONE3" />
+    	<result property="userPostNo"		column="USER_ADDR1" />
+    	<result property="userAddress"		column="USER_ADDR2" />
+    	<result property="userCompany"		column="USER_COMPANY" />
+    	<collection property="comCodeVo"    resultMap="comCodeVo" />
+    </resultMap>
+    
+    <select id="boardList" parameterType="com.spring.board.vo.PageVo" resultMap="boardVo">
+        SELECT 
+				 BOARD_TYPE 
+				,CODE_NAME
+				,BOARD_NUM
+				,BOARD_TITLE
+				,BOARD_COMMENT
+				,TOTAL_CNT
+		FROM ( SELECT
+				 B.BOARD_TYPE 
+				,C.CODE_NAME
+			    ,B.BOARD_NUM
+			    ,B.BOARD_TITLE
+			    ,B.BOARD_COMMENT
+			    ,ROW_NUMBER() OVER(ORDER BY BOARD_NUM DESC) AS NUMROW
+			    ,COUNT(*) OVER() AS TOTAL_CNT
+        		FROM 
+        			BOARD B JOIN COM_CODE C
+        			ON B.BOARD_TYPE = C.CODE_ID
+        		WHERE 1 = 1
+        		<if test="checkNo != null and checkNo != ''">
+	        		AND B.BOARD_TYPE IN
+	        		<foreach collection="checkNo" item="data" open="(" close=")" separator=",">
+	        			#{data}
+	        		</foreach>
+        		</if>
+    		  )
+		WHERE NUMROW BETWEEN (#{pageNo}-1)*10 + 1 AND (#{pageNo})*10
+    </select>
+    
+    <select id="boardTotal" parameterType="com.spring.board.vo.PageVo" resultType="Integer">
+		SELECT
+				COUNT(*) AS TOTAL_CNT
+		FROM
+				BOARD	
+		WHERE 1 = 1
+		<if test="checkNo != null and checkNo != ''">
+      		AND BOARD_TYPE IN
+      		<foreach collection="checkNo" item="data" open="(" close=")" separator=",">
+      			#{data}
+      		</foreach>
+        </if>
+    </select>
+    	
+    <insert id="boardInsert" parameterType="com.spring.board.vo.BoardVo">
+        INSERT INTO BOARD (BOARD_TYPE
+					        ,BOARD_NUM
+					        ,BOARD_TITLE
+					        ,BOARD_COMMENT
+					        ,CREATOR
+					        ,CREATE_TIME
+					        ,MODIFIER
+					        ,MODIFIED_TIME
+        					)
+        VALUES (#{boardType}
+        		,(SELECT NVL(MAX(BOARD_NUM),0)+1  FROM BOARD)
+		        ,#{boardTitle}
+		        ,#{boardComment}
+		        ,#{creator}
+		        ,TO_CHAR(SYSDATE)
+		        ,'SYSTEM'
+		        ,TO_CHAR(SYSDATE)
+        )
+    </insert>
+    
+    <select id="comCodeList" parameterType="String" resultMap="comCodeVo"> 
+    	SELECT CODE_NAME, CODE_ID
+		FROM COM_CODE
+		WHERE CODE_TYPE = #{codeType}
+    </select>
+    
+    <select id="boardView" parameterType="com.spring.board.vo.BoardVo" resultMap="boardVo">
+    	SELECT BOARD_TYPE
+				,BOARD_NUM
+				,BOARD_TITLE
+				,BOARD_COMMENT
+				,CREATOR
+		FROM
+				BOARD
+    	WHERE 	BOARD_TYPE = #{boardType}
+    	AND 	BOARD_NUM  = #{boardNum}
+    </select>	
+    
+    <update id="boardUpdate" parameterType="com.spring.board.vo.BoardVo">
+	    UPDATE BOARD SET
+						BOARD_TITLE = #{boardTitle},
+						BOARD_COMMENT = #{boardComment}
+		WHERE BOARD_NUM = #{boardNum}
+    </update>
+    
+    <delete id="boardDel" parameterType="com.spring.board.vo.BoardVo">
+   		DELETE
+		FROM  BOARD
+		WHERE BOARD_TYPE = #{boardType}
+		AND   BOARD_NUM  = #{boardNum}
+    </delete>
+    
+    <insert id="boardJoin" parameterType="com.spring.board.vo.UserVo">
+	    INSERT INTO USER_INFO (	USER_ID,
+								USER_PW,
+								USER_NAME,
+								USER_PHONE1,
+								USER_PHONE2,
+								USER_PHONE3,
+								USER_ADDR1,
+								USER_ADDR2,
+								USER_COMPANY,
+								CREATOR,
+								CREATE_TIME,
+								MODIFIER,
+								MODIFIED_TIME
+								)
+		VALUES (#{userId}, 
+				#{userPw}, 
+				#{userName}, 
+				#{userPhone1}, 
+				#{userPhone2}, 
+				#{userPhone3}, 
+				#{userPostNo}, 
+				#{userAddress}, 
+				#{userCompany}, 
+				'SYSTEM', 
+				TO_CHAR(SYSDATE), 
+				'SYSTEM', 
+				TO_CHAR(SYSDATE))
+    </insert>
+    
+    <select id="idCheck" parameterType="com.spring.board.vo.UserVo" resultType="Integer">
+	    SELECT COUNT(*)
+		FROM USER_INFO
+		WHERE USER_ID = #{userId}
+    </select>
+    
+    
+    <select id="boardLogin" parameterType="com.spring.board.vo.UserVo" resultMap="userVo">
+		SELECT USER_ID, USER_PW
+		FROM USER_INFO
+		WHERE USER_ID = #{userId}
+    </select>
+    
+    
+  
+    
+    
+</mapper>
