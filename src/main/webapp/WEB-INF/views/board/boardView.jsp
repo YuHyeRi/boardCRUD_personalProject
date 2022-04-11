@@ -37,7 +37,6 @@
 				<th align="center">
 					Writer
 				</th>
-				<!-- 수정필요!!!! -->
 				<td>
 					${board.creator}
 				</td>
@@ -45,7 +44,7 @@
 		</table>
 		
 		<!-- 수정, 삭제버튼 -->
-		<c:if test="${session ne null}">
+		<c:if test="${session.userId eq board.creator}">
 			<button type="button" class="btn btn-secondary" onclick="location.href='/board/${board.boardType}/${board.boardNum}/boardUpdate.do'">수정</button>
 			<button type="button" id="delBtn" class="btn btn-secondary">삭제</button>
 		</c:if>

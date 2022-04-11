@@ -2,22 +2,22 @@ package com.spring.common.bean;
 
 public class PagingBean {
 	
-	// 페이지 게시글 시작번호
+	//페이지 게시글 시작번호
 	int startCount;
 	
-	// 페이지 게시글 종료번호
+	//페이지 게시글 종료번호
 	int endCount;
 	
-	// 마지막 페이지 번호
+	//마지막 페이지 번호
 	int maxPcount;
 	
-	// 현재 페이지 기준 시작 페이지 번호
+	//현재 페이지 기준 시작 페이지 번호
 	int startPcount;
 	
-	// 현재 페이지 기준 종료 페이지 번호
+	//현재 페이지 기준 종료 페이지 번호
 	int endPcount;
 		
-	// Getter & Setter
+	//Getter & Setter
 	public int getStartCount() {
 		return startCount;
 	}
@@ -53,4 +53,4 @@ public class PagingBean {
 		this.endPcount = endPcount;
 	}
 
-} // class end
+}

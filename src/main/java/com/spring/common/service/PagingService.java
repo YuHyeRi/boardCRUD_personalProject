@@ -8,8 +8,10 @@ import com.spring.common.bean.PagingBean;
 @Service
 public class PagingService implements IPagingService {
 	
-	// Paging
-	// 테이블 시작row
+	/*
+	 * Paging
+	 */
+	//테이블 시작row
 	@Override
 	public int getStartCount(int page) {
 		int startCount = 0;
@@ -18,7 +20,7 @@ public class PagingService implements IPagingService {
 		return startCount;
 	}
 	
-	// 테이블 종료row
+	//테이블 종료row
 	@Override
 	public int getEndCount(int page) {
 		int endCount = 0;
@@ -26,7 +28,7 @@ public class PagingService implements IPagingService {
 		return endCount;
 	}
 	
-	// 페이징 최대 크기
+	//페이징 최대 크기
 	@Override
 	public int getMaxPcount(int maxCount) {
 		int maxPcount = 0;
@@ -44,7 +46,7 @@ public class PagingService implements IPagingService {
 		return maxPcount;
 	}
 	
-	// 현재페이지 기준 시작페이지
+	//현재페이지 기준 시작페이지
 	@Override
 	public int getStartPcount(int page) {
 		int startPcount = 0;
@@ -58,7 +60,7 @@ public class PagingService implements IPagingService {
 		return startPcount;
 	}
 	
-	// 현재페이지 기준 종료페이지
+	//현재페이지 기준 종료페이지
 	@Override
 	public int getEndPcount(int page, int maxCount) {
 		int endPcount = 0;
@@ -73,7 +75,7 @@ public class PagingService implements IPagingService {
 		return endPcount;
 	}
 	
-	// 빈형식으로 취득 ==> 이걸 쓰면 됨
+	//빈형식으로 취득
 	@Override
 	public PagingBean getPagingBean(int page, int maxCount) {
 		PagingBean pb = new PagingBean();
@@ -87,8 +89,10 @@ public class PagingService implements IPagingService {
 		return pb;
 	}
 	
-	// Custom Paging
-	// 테이블 시작row
+	/*****************
+	 * Custom Paging *
+	 *****************/
+	//테이블 시작row
 	@Override
 	public int getStartCount(int page, int viewCnt) {
 		int startCount = 0;
@@ -96,7 +100,7 @@ public class PagingService implements IPagingService {
 		return startCount;
 	}
 	
-	// 테이블 종료row
+	//테이블 종료row
 	@Override
 	public int getEndCount(int page, int viewCnt) {
 		int endCount = 0;
@@ -104,7 +108,7 @@ public class PagingService implements IPagingService {
 		return endCount;
 	}
 	
-	// 페이징 최대 크기
+	//페이징 최대 크기
 	@Override
 	public int getMaxPcount(int maxCount, int viewCnt) {
 		int maxPcount = 0;
@@ -122,7 +126,7 @@ public class PagingService implements IPagingService {
 		return maxPcount;
 	}
 	
-	// 현재페이지 기준 시작페이지
+	//현재페이지 기준 시작페이지
 	@Override
 	public int getStartPcount(int page, int pageCnt) {
 		int startPcount = 0;
@@ -136,7 +140,7 @@ public class PagingService implements IPagingService {
 		return startPcount;
 	}
 	
-	// 현재페이지 기준 종료페이지
+	//현재페이지 기준 종료페이지
 	@Override
 	public int getEndPcount(int page, int maxCount, int viewCnt, int pageCnt) {
 		int endPcount = 0;
@@ -151,7 +155,7 @@ public class PagingService implements IPagingService {
 		return endPcount;
 	}
 	
-	// 빈형식으로 취득
+	//빈형식으로 취득
 	@Override
 	public PagingBean getPagingBean(int page, int maxCount, int viewCnt, int pageCnt) {
 		PagingBean pb = new PagingBean();
@@ -164,5 +168,4 @@ public class PagingService implements IPagingService {
 		
 		return pb;
 	}
-
 }

@@ -21,7 +21,6 @@ public class BoardDaoImpl implements BoardDao{
 	@Override
 	public String selectTest() throws Exception {
 		String a = sqlSession.selectOne("board.boardList");
-		
 		return a;
 	}
 	

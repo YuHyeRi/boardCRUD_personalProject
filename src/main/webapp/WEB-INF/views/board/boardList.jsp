@@ -25,7 +25,6 @@
 <body>
 	<h6><mark>🟣 총 게시글 수 : ${totalCnt}</mark></h6><br>
 
-	<!-- login, logout, join button -->
 	<!-- 로그인 안했을 때 -->
 	<c:if test = "${session eq null}">
 		<button type="submit" class="btn btn-secondary" onclick="location.href='/board/boardLogin.do'">로그인</button>
@@ -34,27 +33,23 @@
 			
 	<!-- 로그인 했을 때 -->
 	<c:if test = "${session ne null}">
-		<!-- <script type="text/javascript">
-			alert("로그인 정상작동");
-		</script> -->
-		<b>${session.userId}님 환영합니다 :)</b><br>
+		<b>${session.userId}님 환영합니다.</b><br>
 		<button type="submit" class="btn btn-secondary" onclick="location.href='/board/boardWrite.do'">글쓰기</button>
 		<button type="submit" class="btn btn-secondary" onclick="location.href='/board/boardLogout.do'; logoutBtn();">로그아웃</button>
 	</c:if>
 	
-	<!-- list table -->
 	<table class="table table-hover" align="center">
 		<thead>
 			<tr>
-				<td width="100" align="center">
+				<th width="100" align="center">
 					Type
-				</td>
-				<td width="100" align="center">
+				</th>
+				<th width="100" align="center">
 					No
-				</td>
-				<td width="300" align="center">
+				</th>
+				<th width="300" align="center">
 					Title
-				</td>
+				</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -68,15 +63,15 @@
 					${list.boardNum}
 				</td>
 				<td align="center">
-					<a href="/board/${list.boardType}/${list.boardNum}/boardView.do?pageNo=${pageNo}">${list.boardTitle}</a>
+					<a href="/board/${list.boardType}/${list.boardNum}/boardView.do?pageNo=${pageVo.pageNo}">${list.boardTitle}</a>
 				</td>
 			</tr>	
 			</c:forEach>
 		</tbody>
 	</table>
 
-	<!-- checkbox search -->
 	<form action="/board/boardList.do" method="post">
+		<input type="hidden" id="pageNo" name="pageNo" value="${pageNo}"/>
 		<div class="input-group">
 			<div class="input-group-text">
 				<input type="checkbox" id="checkAll" value="all" />전체
@@ -88,70 +83,47 @@
 		</div>
 	</form>
 	
-	<!-- Paging -->
 	<div id="pagingWrap">
-		<nav aria-label="...">
+		<nav aria-label="Page navigation example">
 			<ul class="pagination">
-				<c:choose>
-					<c:when test="${pageNo eq 1}">
-						 <li class="page-item disabled">
-						 	<a class="page-link"><span page="1">Previous</span></a>
-						 </li>
-					</c:when>
-					<c:otherwise>
-						<li class="page-item">
-							<a class="page-link"><span page="${pageNo - 1}">Previous</span></a>
-						</li>
-					</c:otherwise>
-				</c:choose>
-							
+				<li class="page-item">
+				    <a class="page-link" href="/board/boardList.do?pageNo=1" aria-label="Previous">
+				   		<span aria-hidden="true">&laquo;</span>
+				    </a>
+			    </li>
+			
 				<c:forEach var="i" begin="${pb.startPcount}" end="${pb.endPcount}" step="1">
 				<c:choose>
 					<c:when test="${pageNo eq i}">
 						<li class="page-item" aria-current="page">
-							<a class="page-link"><span page="${pageNo - 1}"><span page="${i}"><b>${i}</b></span></a>
+							<a class="page-link" href="/board/boardList.do?pageNo=${i}">
+								${i}
+							</a>
 						</li>
 					</c:when>
 					<c:otherwise>
 						<li class="page-item">
-							<a class="page-link"><span page="${pageNo - 1}"><span page="${i}">${i}</span></a>
+							<a class="page-link" href="/board/boardList.do?pageNo=${i}">
+								${i}
+							</a>
 						</li>
 					</c:otherwise>
 				</c:choose>
 				</c:forEach>
-							
-				<c:choose>
-					<c:when test="${pageNo eq pb.maxPcount}">
-						<li class="page-item">
-							<a class="page-link"><span page="${pageNo - 1}"><span page="${pb.maxPcount}">Next</span></a>
-						</li>
-					</c:when>
-					<c:otherwise>
-						<li class="page-item">
-							<a class="page-link"><span page="${pageNo - 1}"><span page="${pageNo + 1}">Next</span></a>
-						</li>
-					</c:otherwise>
-				</c:choose>
+					
+				<li class="page-item">
+				    <a class="page-link" href="/board/boardList.do?pageNo=${pb.maxPcount}" aria-label="Next">
+				    	<span aria-hidden="true">
+				    		&raquo;
+				    	</span>
+				    </a>
+			    </li>
 			</ul>
 		</nav>
 	</div>
 	
 <script type="text/javascript">
 	$j(document).ready(function() {
-		
-		/* $j("#checkAll").on("click", function() {
-			if($j("#checkAll").prop("checked")){					// 만약 전체 체크박스가 체크된 상태이면
-				$j("input[type=checkbox]").prop("checked", true);	// 모든 input type이 checkbox에 체크한다 
-			} else {					
-				$j("input[type=checkbox]").prop("checked", false);
-			}
-		}); */
-		
-		// paging
-		$j("#pagingWrap").on("click", "span", function(){
-			console.log("페이징 클릭");
-			$j("#pagingWrap").submit();
-		})
 		
 		$j("#checkAll").on("click", function() {
 			if($j("#checkAll").is(":checked")) {
@@ -176,7 +148,8 @@
 	// 로그아웃 알림
 	function logoutBtn() {
 		alert("로그아웃 되었습니다.");
-	}
+	};
+	
 </script>
 </body>
 </html>

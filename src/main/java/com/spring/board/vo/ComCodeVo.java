@@ -6,7 +6,7 @@ public class ComCodeVo {
 	private String codeName;
 	private String codeId;
 
-	// getter, setter (단축키 : alt + shift + s)
+	// getter, setter
 	public String getCodeName() {
 		return codeName;
 	}
@@ -23,5 +23,4 @@ public class ComCodeVo {
 		this.codeId = codeId;
 	}
 
-	
 }	// class end

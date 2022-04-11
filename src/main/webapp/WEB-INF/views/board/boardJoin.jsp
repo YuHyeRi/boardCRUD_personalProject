@@ -16,14 +16,13 @@
 </head>
 <body>
 	<form id="joinForm">
-		<!-- input type 목적에 맞게 적용(submit, button..) -->
 		<button type="button" id="listBtn" class="btn btn-secondary" onclick="location.href='/board/boardList.do'">목록</button><br>
 				
 		<table class="table">
 			<tbody>
 				<tr>
 					<!-- 여러줄 동시 수정 : alt + shift + A -->
-					<th style="width: 200px;" >아이디</th>
+					<th style="width: 200px;">아이디</th>
 					<td>
 						<input type="text" id="userId" name="userId" maxlength="15" required />
 						<td style="width: 200px;"><span id="idCheck"></span></td>
@@ -61,7 +60,7 @@
 								<option value="${cList.codeId}">${cList.codeName}</option>
 							</c:forEach>
 						</select>
-					<!-- input type : number는 maxlength 사용불가 -->
+						<!-- input type : number는 maxlength 사용불가 -->
 						<input type="number" id="userPhone2" name="userPhone2" maxlength="4" oninput="maxLengthCheck(this)" style="width: 60px" required />
 						<input type="number" id="userPhone3" name="userPhone3" maxlength="4" oninput="maxLengthCheck(this)" style="width: 60px" required />
 					</td>
@@ -89,7 +88,7 @@
 					<td></td>
 				</tr>
 			</tbody>
-		</table><br>
+		</table>
 		<input id="submitBtn" type="button" value="확인" class="btn btn-secondary">
 	</form>
 
@@ -98,7 +97,6 @@
 		
 		// 아이디 중복검사
 		$j("#userId").on("change", function() {
-			// console.log("아이디 중복검사 테스트")
 			var params = $j("#joinForm").serialize();
 				
 			$j.ajax({
@@ -110,9 +108,9 @@
 					if(res.cnt > 0){
 						$j("#idCheck").html("중복된 아이디");
 						$j("#idCheck").css("color", "red");
-						$j("#joinForm")[0].reset();			// 첫번째 폼 내용 리셋
+						// $j("#joinForm")[0].reset();		// 첫번째 폼 내용 리셋
 					} else {
-						$j("#idCheck").html("가능한 아이디");
+						$j("#idCheck").html("사용가능한 아이디");
 						$j("#idCheck").css("color", "green");
 					}
 				},
@@ -216,7 +214,7 @@
 						location.href = "/board/boardList.do";
 					},
 					error: function(jqXHR, textStatus, errorThrown) {
-						alert("회원가입 중 오류가 발생하였습니다.")
+						alert("회원가입이 처리되지 않았습니다.")
 					}
 				});	// ajax end
 			}	// else end

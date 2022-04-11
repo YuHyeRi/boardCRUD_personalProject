@@ -49,7 +49,6 @@
 				<th>
 					Writer
 				</th>
-				<!-- 수정필요!!!! -->
 				<td>
 					<c:if test="${session ne null}">
 						${session.userId}

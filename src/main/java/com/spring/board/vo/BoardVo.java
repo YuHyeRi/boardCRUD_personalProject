@@ -11,18 +11,21 @@ public class BoardVo {
 	private String	modifier;
 	private int 	totalCnt;
 	
+	// + 멤버변수 & 필드
 	// resultMap join 을 위해 추가
 	// mapper의 collection의 property가 되는 것
-	// 이것도 마찬가지로 getter, setter를 만들어줘야함 (왜냐면 값을 넣어야 하니까)
+	// 마찬가지로 getter, setter를 만들어줘야함 (왜냐면 값을 넣어야 하니까)
 	private ComCodeVo comCodeVo;
 
-	// getter, setter (단축키 : alt + shift + s)
+	// getter, setter 
+	// alt + shift + s
 	public int getTotalCnt() {
 		return totalCnt;
 	}
 	
 	public void setTotalCnt(int totalCnt) {
-		this.totalCnt = totalCnt;		// this.totalcnt = 12번째 줄의 private int totalCnt
+		// this.totalcnt = 12번째 줄의 private int totalCnt
+		this.totalCnt = totalCnt;		
 	}
 	
 	public String getBoardType() {
@@ -80,6 +83,5 @@ public class BoardVo {
 	public void setComCodeVo(ComCodeVo comCodeVo) {
 		this.comCodeVo = comCodeVo;
 	}
-	
 	
 }	// class end

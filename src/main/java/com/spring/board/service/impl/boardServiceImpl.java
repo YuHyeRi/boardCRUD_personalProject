@@ -35,8 +35,7 @@ public class boardServiceImpl implements boardService {
 	
 	@Override
 	public BoardVo selectBoard(String boardType, int boardNum) throws Exception {
-		BoardVo boardVo = new BoardVo();	// Dao 내 인수에 값은 하나만 들어올 수 있어서 객체를 생성해서 두 개의 값을 set 해줌
-		
+		BoardVo boardVo = new BoardVo();	// Dao 인수값은 하나만 들어올 수 있어서 객체를 생성하여 두 개의 값을 set 해줌
 		boardVo.setBoardType(boardType);
 		boardVo.setBoardNum(boardNum);
 		
@@ -83,5 +82,4 @@ public class boardServiceImpl implements boardService {
 		return boardDao.pageCnt(pageVo);
 	}
 
-	
 }	// class end

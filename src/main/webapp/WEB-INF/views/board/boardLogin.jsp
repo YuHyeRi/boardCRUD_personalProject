@@ -35,17 +35,17 @@
 				<td>
 					<table border=1>
 						<tr>
-							<td align="center" width="100px">
+							<th align="center" width="100px">
 								아이디
-							</td>
+							</th>
 							<td>
 								<input type="text" maxlength="15" name="userId" id="id">
 							</td>
 						</tr>
 						<tr>
-							<td align="center">
+							<th align="center">
 								비밀번호
-							</td>
+							</th>
 							<td>
 								<input type="password" maxlength="15" name="userPw" id="pw">
 							</td>
@@ -57,10 +57,10 @@
 			<tr>
 				<td>
 					<a href="/board/boardJoin.do">
-						join
+						JOIN
 					</a>
 					<a id="submit">
-						login
+						LOGIN
 					</a>
 				</td>
 			</tr>

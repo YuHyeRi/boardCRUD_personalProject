@@ -34,7 +34,6 @@
 				<th>
 					Writer
 				</th>
-				<!-- 수정필요!!!! -->
 				<td>
 					${board.creator}
 				</td>
