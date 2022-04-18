@@ -24,7 +24,7 @@
 					<!-- 여러줄 동시 수정 : alt + shift + A -->
 					<th style="width: 200px;">아이디</th>
 					<td>
-						<input type="text" id="userId" name="userId" maxlength="15" required />
+						<input type="text" id="userId" name="userId" maxlength="15" placeholder="영문, 숫자만 입력해주세요."  required />
 						<td style="width: 200px;"><span id="idCheck"></span></td>
 					</td>
 				</tr>
